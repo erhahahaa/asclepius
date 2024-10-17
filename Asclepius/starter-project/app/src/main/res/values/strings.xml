@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Asclepius</string>
+    <string name="camera_x">CameraX</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="analyze">Analyze</string>
+    <string name="result">Hasil Analisis</string>
+    <string name="failed_to_initialize_tflite_vision">Failed to initialize TFLite Vision</string>
+    <string name="failed_to_create_image_classifier">Failed to create ImageClassifier</string>
+    <string name="result_with_prediction">"Hasil Analisis:\n%1$s"</string>
+    <string name="no_results">No results</string>
+    <string name="preview_image">Preview Image</string>
+    <string name="result_image">Result Image</string>
+    <string name="history">History</string>
+    <string name="home">Home</string>
+    <string name="cancer_score">Cancer Score: %1$s</string>
+    <string name="non_cancer_score">Non-Cancer Score: %1$s</string>
+    <string name="date">Date: %1$s</string>
+    <string name="image_name">Image name: %1$s</string>
+</resources>

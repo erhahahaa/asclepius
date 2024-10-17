@@ -3,7 +3,6 @@ package com.dicoding.asclepius.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
-import com.dicoding.asclepius.R
 import com.dicoding.asclepius.databinding.ActivityResultBinding
 
 class ResultActivity : AppCompatActivity() {
@@ -15,7 +14,7 @@ class ResultActivity : AppCompatActivity() {
     setContentView(binding.root)
 
     val result = intent.getStringExtra("PREDICTION_RESULT")
-    binding.resultText.text = getString(R.string.result_with_prediction, result)
+    binding.resultText.text = result
 
     val imageStr = intent.getStringExtra("IMAGE_URI")
     val imageUri = imageStr?.toUri()

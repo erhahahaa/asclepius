@@ -21,12 +21,17 @@ class ImageClassifierHelper(context: Context) {
     }
   }
 
-  fun classifyImage(image: Bitmap): List<Category> {
-    val tensorImage = TensorImage.fromBitmap(image)
-    val results = model.process(tensorImage)
-    val probability = results.getProbabilityAsCategoryList()
+  fun classifyImage(image: Bitmap, onError: (Exception) -> Unit): List<Category>? {
+    return try {
+      val tensorImage = TensorImage.fromBitmap(image)
+      val results = model.process(tensorImage)
+      val probability = results.getProbabilityAsCategoryList()
 
-    return probability
+      probability
+    } catch (e: Exception) {
+      onError(e)
+      null
+    }
   }
 }
 
@@ -34,10 +39,25 @@ fun Float.toPercent(): String {
   return "${(this * 100).toInt()}%"
 }
 
-fun List<Category>.toReadableString(): String {
-  val result = StringBuilder()
+fun List<Category>.determineCancer(): String {
+  //  val result = StringBuilder()
+  //  for (category in this) {
+  //    result.append("${category.label}: ${category.score.toPercent()}\n")
+  //  }
+  //  return result.toString()
+
+  val data = mutableMapOf("Cancer" to 0f, "Non-Cancer" to 0f)
   for (category in this) {
-    result.append("${category.label}: ${category.score.toPercent()}\n")
+    if (category.label == "Cancer") {
+      data["Cancer"] = category.score
+    } else {
+      data["Non-Cancer"] = category.score
+    }
   }
-  return result.toString()
+
+  return if (data["Cancer"]!! > data["Non-Cancer"]!!) {
+    "Cancer: ${data["Cancer"]!!.toPercent()}"
+  } else {
+    "Non-Cancer ${data["Non-Cancer"]!!.toPercent()}"
+  }
 }

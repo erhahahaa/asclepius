@@ -19,8 +19,8 @@ import com.dicoding.asclepius.databinding.ActivityMainBinding
 import com.dicoding.asclepius.db.AppDatabase
 import com.dicoding.asclepius.db.PredictionEntity
 import com.dicoding.asclepius.helper.ImageClassifierHelper
+import com.dicoding.asclepius.helper.determineCancer
 import com.dicoding.asclepius.helper.getFileName
-import com.dicoding.asclepius.helper.toReadableString
 import com.yalantis.ucrop.UCrop
 import java.io.File
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -119,9 +119,17 @@ class MainActivity : AppCompatActivity() {
           }
         }
       val classifier = ImageClassifierHelper(context = this)
-      val result = classifier.classifyImage(bitmap)
+      val result =
+        classifier.classifyImage(
+          bitmap,
+          onError = { e -> showToast("Error analyzing image: ${e.message}") },
+        )
+      if (result == null) {
+        showToast("Error analyzing image")
+        return
+      }
       savePredictionToDb(uri.toString(), result)
-      moveToResult(result.toReadableString())
+      moveToResult(result.determineCancer())
     } ?: showToast("No image selected")
   }
 
